@@ -25,5 +25,8 @@ já o Screenlogger é um sistema que tira prints da tela do usuário, informando
 
 ## Exemplo de email recebido
 
-![exemplo de email enviado pelo keylogger](/assets/images/tux.png)
+![exemplo de email enviado pelo keylogger](https://github.com/LucasAndrius/keylogger/blob/main/email.png)
 
+## Exemplo de screenshot recebida por email
+
+![screenshot recebida por email atravez do keylogger/screenlogger](https://github.com/LucasAndrius/keylogger/blob/main/screenshot.png)
